@@ -1,0 +1,47 @@
+#
+# generated on 2018/07/14 07:14:23
+#
+# --table-start--
+dataClass=com.apolotech.seriesmanager.Model.Genre
+tableName=genre
+# --table-fields-start--
+# --field-start--
+fieldName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.apolotech.seriesmanager.Model.Movie
+tableName=movie
+# --table-fields-start--
+# --field-start--
+fieldName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=overview
+# --field-end--
+# --field-start--
+fieldName=genreIds
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=posterPath
+# --field-end--
+# --field-start--
+fieldName=backdropPath
+# --field-end--
+# --field-start--
+fieldName=releaseDate
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

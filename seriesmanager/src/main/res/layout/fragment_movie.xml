@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
+    android:fadeScrollbars="false"
     android:focusable="true"
-    android:scrollbarThumbVertical="@drawable/scrollbar"
-    android:fadeScrollbars="false">
+    android:scrollbarThumbVertical="@drawable/scrollbar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,13 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:importantForAccessibility="no"/>
+            android:importantForAccessibility="no" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/posterImageView"
@@ -40,25 +41,34 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addImageView"
                 app:layout_constraintStart_toEndOf="@+id/posterImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/addImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_add"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/genresTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:ellipsize="end"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/posterImageView"
@@ -68,11 +78,11 @@
                 android:id="@+id/releaseDateTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="italic"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/white"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/posterImageView"
                 app:layout_constraintTop_toBottomOf="@+id/genresTextView" />

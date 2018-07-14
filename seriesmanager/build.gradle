@@ -39,6 +39,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
+
+    annotationProcessor "org.androidannotations:ormlite:$AAVersion"
+    implementation "org.androidannotations:ormlite-api:$AAVersion"
+    implementation 'com.j256.ormlite:ormlite-android:5.0'
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation 'com.squareup.picasso:picasso:2.71828'

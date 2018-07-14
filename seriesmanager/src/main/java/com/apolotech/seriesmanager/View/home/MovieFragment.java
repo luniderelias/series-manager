@@ -59,11 +59,13 @@ public class MovieFragment extends Fragment {
     }
 
     private void setTexts() {
-        titleTextView.setText(movie.title);
+        if (movie.name != null)
+            titleTextView.setText(movie.name);
         genresTextView.setText(getGendersText());
-        if(movie.releaseDate != null)
+        if (movie.releaseDate != null)
             releaseDateTextView.setText(movie.releaseDate.split("-")[0]);
-        descriptionTextView.setText(movie.overview);
+        if (movie.overview != null)
+            descriptionTextView.setText(movie.overview);
     }
 
     private StringBuilder getGendersText() {
