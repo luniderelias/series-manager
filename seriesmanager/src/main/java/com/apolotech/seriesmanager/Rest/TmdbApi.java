@@ -32,7 +32,7 @@ public interface TmdbApi {
             @Query("region") String region
     );
 
-    @GET("search/movie")
+    @GET("search/tv")
     Observable<MoviesResponse> searchMovies(
             @Query("api_key") String apiKey,
             @Query("language") String language,
