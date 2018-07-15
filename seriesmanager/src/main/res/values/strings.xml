@@ -7,4 +7,8 @@
     <string name="undo">DESFAZER</string>
     <string name="search">Pesquisar</string>
     <string name="my_list">Minha Lista</string>
+    <string name="statistics">Estatísticas</string>
+    <string name="profile">Perfil</string>
+    <string name="under_development">Em Desenvolvimento</string>
+    <string name="no_series_found">Nenhuma Série Encontrada</string>
 </resources>

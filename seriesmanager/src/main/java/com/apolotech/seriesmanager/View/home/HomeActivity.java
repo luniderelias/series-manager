@@ -9,6 +9,8 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apolotech.seriesmanager.Model.Cache;
 import com.apolotech.seriesmanager.Model.Movie;
@@ -39,6 +43,7 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @EActivity(R.layout.home_activity)
 public class HomeActivity extends AppCompatActivity implements
@@ -47,6 +52,12 @@ public class HomeActivity extends AppCompatActivity implements
 
     @ViewById(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @ViewById(R.id.noContentTextView)
+    TextView noContentTextView;
+
+    @ViewById(R.id.textInputEditText)
+    TextInputLayout textInputEditText;
 
     @ViewById(R.id.progressBar)
     ProgressBar progressBar;
@@ -70,8 +81,7 @@ public class HomeActivity extends AppCompatActivity implements
     LinearLayoutManager layoutManager;
 
     Long currentPage = 1L;
-    private static final String INITIAL_QUERY = "A";
-    String query = INITIAL_QUERY;
+    String query = "";
     public static Boolean myListEnabled = false;
 
     public static final String[] permissions = {
@@ -89,7 +99,6 @@ public class HomeActivity extends AppCompatActivity implements
     @AfterViews
     void afterViews() {
         PermissionUtil.requestPermissions(this, permissions, 123);
-        fillQuery();
         configureRecyclerView();
         onTextChange(searchEditText);
         setMoviesAdapter();
@@ -104,7 +113,7 @@ public class HomeActivity extends AppCompatActivity implements
             query = searchEditText.getText().toString();
             query = query.replace(" ", "+");
         } else {
-            query = INITIAL_QUERY;
+            query = "";
         }
     }
 
@@ -191,6 +200,10 @@ public class HomeActivity extends AppCompatActivity implements
     @UiThread
     void updateMoviesList(List<Movie> movies) {
         this.movies = movies;
+        if(movies.size() == 0)
+            noContentTextView.setVisibility(View.VISIBLE);
+        else
+            noContentTextView.setVisibility(View.GONE);
         movieAdapter.setMovies(movies);
         movieAdapter.notifyDataSetChanged();
         setProgressBarIndeterminateVisibility(false);
@@ -228,36 +241,40 @@ public class HomeActivity extends AppCompatActivity implements
 
     @Override
     public void onNavigationItemReselected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_home:
-                myListEnabled = false;
-                break;
-            case R.id.nav_my_list:
-                myListEnabled = true;
-                break;
-            default:
-                myListEnabled = false;
-                break;
-        }
-        getMovies();
+        switchTabs(item);
+        this.getFragmentManager().popBackStack();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switchTabs(item);
+        this.getFragmentManager().popBackStack();
+        return true;
+    }
+
+    void switchTabs(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.nav_home:
                 myListEnabled = false;
+                textInputEditText.setVisibility(View.VISIBLE);
+                updateMoviesList(new ArrayList<>());
+                getMovies();
+                updateMoviesList(movies);
                 break;
             case R.id.nav_my_list:
                 myListEnabled = true;
+                textInputEditText.setVisibility(View.GONE);
+                updateMoviesList(new ArrayList<>());
+                getMovies();
+                break;
+            case R.id.nav_statistics:
+                Toast.makeText(this, getText(R.string.under_development), Toast.LENGTH_SHORT).show();
                 break;
             default:
                 myListEnabled = false;
                 break;
         }
-        this.getFragmentManager().popBackStack();
-        getMovies();
-        return true;
     }
 
     @Override
