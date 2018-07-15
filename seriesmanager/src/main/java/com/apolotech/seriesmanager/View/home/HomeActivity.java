@@ -16,7 +16,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.apolotech.seriesmanager.Model.Cache;
 import com.apolotech.seriesmanager.Model.Movie;
@@ -45,6 +48,9 @@ public class HomeActivity extends AppCompatActivity implements
     @ViewById(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    @ViewById(R.id.progressBar)
+    ProgressBar progressBar;
+
     @ViewById(R.id.searchEditText)
     EditText searchEditText;
 
@@ -72,6 +78,13 @@ public class HomeActivity extends AppCompatActivity implements
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        setProgressBarIndeterminateVisibility(true);
+    }
 
     @AfterViews
     void afterViews() {
@@ -153,6 +166,7 @@ public class HomeActivity extends AppCompatActivity implements
     @Background
     void getMovies() {
         checkConnectivity();
+        changeLoadingVisibility(true);
         if (myListEnabled) {
             try {
                 updateMoviesList(movieService.getLocalMovies());
@@ -167,10 +181,20 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     @UiThread
+    void changeLoadingVisibility(Boolean visible) {
+        if (visible)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
+    }
+
+    @UiThread
     void updateMoviesList(List<Movie> movies) {
         this.movies = movies;
         movieAdapter.setMovies(movies);
         movieAdapter.notifyDataSetChanged();
+        setProgressBarIndeterminateVisibility(false);
+        changeLoadingVisibility(false);
     }
 
     @UiThread
