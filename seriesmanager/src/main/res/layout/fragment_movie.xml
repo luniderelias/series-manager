@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:clickable="true"
+    android:fadeScrollbars="false"
     android:focusable="true"
-    android:scrollbarThumbVertical="@drawable/scrollbar"
-    android:fadeScrollbars="false">
+    android:scrollbarThumbVertical="@drawable/scrollbar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,19 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:importantForAccessibility="no"/>
+            android:src="@drawable/movie_placeholder"
+            android:importantForAccessibility="no" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/posterImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:importantForAccessibility="no"
+                android:src="@drawable/movie_placeholder"
                 app:layout_constraintBottom_toBottomOf="@+id/releaseDateTextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,25 +43,33 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addImageView"
                 app:layout_constraintStart_toEndOf="@+id/posterImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/addImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/genresTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:ellipsize="end"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/posterImageView"
@@ -68,27 +79,37 @@
                 android:id="@+id/releaseDateTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="italic"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/white"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/posterImageView"
                 app:layout_constraintTop_toBottomOf="@+id/genresTextView" />
 
-            <TextView
-                android:id="@+id/descriptionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/titleTextView"
-                android:layout_toEndOf="@+id/posterImageView"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/posterImageView" />
-
         </android.support.constraint.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/white" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:clipToPadding="false"
+            android:fadeScrollbars="false"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical"
+            android:verticalScrollbarPosition="left"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            tools:listitem="@layout/season_item" />
     </LinearLayout>
 </ScrollView>

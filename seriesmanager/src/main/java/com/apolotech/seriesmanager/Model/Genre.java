@@ -1,8 +1,15 @@
 package com.apolotech.seriesmanager.Model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable
 public class Genre {
 
+    @DatabaseField(id = true)
     public int id;
+
+    @DatabaseField
     public String name;
 
     @Override
