@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.apolotech.seriesmanager.Model.Genre;
 import com.apolotech.seriesmanager.Model.Movie;
+import com.apolotech.seriesmanager.Model.Season;
 import com.apolotech.seriesmanager.R;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -26,6 +27,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, Movie.class);
             TableUtils.createTable(connectionSource, Genre.class);
+            TableUtils.createTable(connectionSource, Season.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,6 +38,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, Movie.class, true);
             TableUtils.dropTable(connectionSource, Genre.class, true);
+            TableUtils.dropTable(connectionSource, Season.class, true);
         } catch (Exception e) {
             e.printStackTrace();
         }

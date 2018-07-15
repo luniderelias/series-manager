@@ -1,6 +1,7 @@
 package com.apolotech.seriesmanager.Service;
 
 import com.apolotech.seriesmanager.Model.GenreResponse;
+import com.apolotech.seriesmanager.Model.Movie;
 import com.apolotech.seriesmanager.Model.MoviesResponse;
 import com.apolotech.seriesmanager.Rest.TmdbApi;
 import com.apolotech.seriesmanager.Util.RestUtil;
@@ -16,6 +17,12 @@ public class MovieService {
 
     public synchronized Observable<MoviesResponse> getMovies(Long page, String query)  {
         return RestUtil.api.searchMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION,query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public synchronized Observable<Movie> getMovie(Integer id)  {
+        return RestUtil.api.getMovie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, TmdbApi.DEFAULT_REGION)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

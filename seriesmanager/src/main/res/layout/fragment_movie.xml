@@ -100,5 +100,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/posterImageView" />
 
         </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:clipToPadding="false"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            tools:listitem="@layout/season_item"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:fadeScrollbars="false"/>
     </LinearLayout>
 </ScrollView>

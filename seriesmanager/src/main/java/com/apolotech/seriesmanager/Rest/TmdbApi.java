@@ -41,10 +41,11 @@ public interface TmdbApi {
             @Query("query") String query
     );
 
-    @GET("movie/{id}")
-    Observable<Movie> movie(
-            @Path("id") Long id,
+    @GET("tv/{id}")
+    Observable<Movie> getMovie(
+            @Path("id") Integer id,
             @Query("api_key") String apiKey,
-            @Query("language") String language
+            @Query("language") String language,
+            @Query("region") String region
     );
 }
