@@ -6,6 +6,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NestedScrollBarStyle">
+        <item name="android:scrollbarFadeDuration">5</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar</item>
+    </style>
+
     <style name="SearchEditTextStyle" parent="TextAppearance.AppCompat">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">@color/light_blue</item>

@@ -33,6 +33,7 @@ import org.androidannotations.ormlite.annotations.OrmLiteDao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 @EFragment(R.layout.fragment_movie)
 public class MovieFragment extends Fragment {
@@ -93,7 +94,9 @@ public class MovieFragment extends Fragment {
             HomeActivity_.myListEnabled = true;
             setAddImageView(R.drawable.ic_added);
             Snackbar
-                    .make(getView(), R.string.serie_added, Snackbar.LENGTH_INDEFINITE)
+                    .make(Objects.requireNonNull(getView()),
+                            R.string.serie_added,
+                            Snackbar.LENGTH_SHORT)
                     .setActionTextColor(getResources().getColor(R.color.light_blue))
                     .setAction(R.string.undo, view -> {
                         try {
@@ -113,6 +116,7 @@ public class MovieFragment extends Fragment {
         layoutManager = new GridLayoutManager(
                 getActivity(), 1);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
     }
 
     @Background
