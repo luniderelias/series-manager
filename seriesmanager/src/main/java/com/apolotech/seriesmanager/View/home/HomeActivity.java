@@ -2,9 +2,12 @@ package com.apolotech.seriesmanager.View.home;
 
 
 import android.Manifest;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.apolotech.seriesmanager.Model.Cache;
@@ -29,17 +33,23 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.home_activity)
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemReselectedListener {
 
     @ViewById(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @ViewById(R.id.searchEditText)
     EditText searchEditText;
+
+    @ViewById(R.id.navigation_view)
+    BottomNavigationView navigationView;
 
     @Bean
     MovieService movieService;
@@ -56,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     Long currentPage = 1L;
     private static final String INITIAL_QUERY = "A";
     String query = INITIAL_QUERY;
+    public static Boolean myListEnabled = false;
 
     public static final String[] permissions = {
             Manifest.permission.INTERNET,
@@ -70,7 +81,9 @@ public class HomeActivity extends AppCompatActivity {
         onTextChange(searchEditText);
         setMoviesAdapter();
         getGenres();
-        getMovies();
+        navigationView.setOnNavigationItemReselectedListener(this);
+        navigationView.setOnNavigationItemSelectedListener(this);
+        navigationView.setSelectedItemId(R.id.nav_home);
     }
 
     private void fillQuery() {
@@ -131,23 +144,32 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Background
-    void getGenres(){
+    void getGenres() {
         movieService.getGenres()
                 .onErrorResumeNext(response -> {
-        }).subscribe(response -> Cache.setGenres(response.genres)).isDisposed();
+                }).subscribe(response -> Cache.setGenres(response.genres)).isDisposed();
     }
 
     @Background
     void getMovies() {
         checkConnectivity();
-        movieService.getMovies(currentPage, query)
-                .onErrorResumeNext(response -> {
-                }).subscribe(response -> updateMoviesList(response.results)).isDisposed();
+        if (myListEnabled) {
+            try {
+                updateMoviesList(movieService.getLocalMovies());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            movieService.getMovies(currentPage, query)
+                    .onErrorResumeNext(response -> {
+                    }).subscribe(response -> updateMoviesList(response.results)).isDisposed();
+        }
     }
 
-    private void updateMoviesList(List<Movie> movies) {
+    @UiThread
+    void updateMoviesList(List<Movie> movies) {
         this.movies = movies;
-        movieAdapter.addMovies(movies);
+        movieAdapter.setMovies(movies);
         movieAdapter.notifyDataSetChanged();
     }
 
@@ -178,5 +200,44 @@ public class HomeActivity extends AppCompatActivity {
             getMovies();
             listState = state.getParcelable(LIST_STATE_KEY);
         }
+    }
+
+    @Override
+    public void onNavigationItemReselected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                myListEnabled = false;
+                break;
+            case R.id.nav_my_list:
+                myListEnabled = true;
+                break;
+            default:
+                myListEnabled = false;
+                break;
+        }
+        getMovies();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                myListEnabled = false;
+                break;
+            case R.id.nav_my_list:
+                myListEnabled = true;
+                break;
+            default:
+                myListEnabled = false;
+                break;
+        }
+        this.getFragmentManager().popBackStack();
+        getMovies();
+        return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

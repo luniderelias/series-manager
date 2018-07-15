@@ -21,7 +21,6 @@ public class Movie {
     @DatabaseField
     public String overview;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
     @Json(name = "genres")
     public List<Genre> genres;
 
@@ -38,7 +37,6 @@ public class Movie {
     public String releaseDate;
 
     @Json(name = "seasons")
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
     public List<Season> seasons;
 
     @Override

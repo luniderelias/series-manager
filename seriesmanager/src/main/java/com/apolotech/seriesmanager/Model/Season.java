@@ -10,9 +10,6 @@ public class Season {
     @DatabaseField(id=true)
     public Integer id;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "movie")
-    public Movie movie;
-
     @DatabaseField
     public String name;
 

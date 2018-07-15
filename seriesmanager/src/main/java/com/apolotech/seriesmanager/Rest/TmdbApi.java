@@ -48,4 +48,13 @@ public interface TmdbApi {
             @Query("language") String language,
             @Query("region") String region
     );
+
+    @GET("tv/{serie_id}/season/{season_id}")
+    Observable<Movie> getSeason(
+            @Path("serie_id") Integer serie_id,
+            @Path("season_id") Integer season_id,
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("region") String region
+    );
 }
